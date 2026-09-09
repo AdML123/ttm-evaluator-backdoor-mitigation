@@ -85,6 +85,8 @@ python scripts/run_baselines_pareto.py     # E4: baselines + retraining upper bo
 python scripts/run_closedloop.py           # E5: GMM + MC-dropout before/after
 python scripts/run_adaptive_probes.py      # E8: weak target + low-rho
 python scripts/run_failure_analysis.py     # E9: residual + collateral analysis
+python scripts/run_calibration_pathology.py # E10: calibration revival experiment
+python scripts/run_minimal_set.py          # E11: minimal first-layer neuron set
 python scripts/build_figures.py            # data figures (needs matplotlib)
 ```
 
@@ -101,6 +103,8 @@ python scripts/build_figures.py            # data figures (needs matplotlib)
 | run_failure_analysis.py | results/p1/e9_failure.json | failure/residual subsection |
 | run_mitigation_backbones.py | results/p1/e3_backbones.json | Table III (MERT, fusion) |
 | run_mitigation_crossdomain.py | results/p1/e6_crossdomain.json | Table III (SingMOS-Pro, NISQA) |
+| run_calibration_pathology.py | results/p1/e10_calibration_pathology.json | Fig. 4 (calibration revival, raw vs z ranking) |
+| run_minimal_set.py | results/p1/e11_minimal_set.json | minimal 8-neuron result |
 
 ## Known limitations
 

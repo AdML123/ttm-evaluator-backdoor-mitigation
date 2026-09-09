@@ -42,6 +42,7 @@ E1 = json.loads((RESULTS / "e1_localization.json").read_text(encoding="utf-8"))
 E2 = json.loads((RESULTS / "e2_tradeoff.json").read_text(encoding="utf-8"))
 E4 = json.loads((RESULTS / "e4_baselines.json").read_text(encoding="utf-8"))
 E5 = json.loads((RESULTS / "e5_closedloop.json").read_text(encoding="utf-8"))
+E10 = json.loads((RESULTS / "e10_calibration_pathology.json").read_text(encoding="utf-8"))
 
 
 def _study():
@@ -187,9 +188,45 @@ def fig_closedloop() -> None:
     plt.close(fig)
 
 
+def fig_calibration() -> None:
+    recipes = ["none", "bias_shift", "affine", "gd_full_1step", "anchored_adam", "trigger_aware"]
+    labels = ["none", "bias", "affine", "GD\nfull head", "anchored\nAdam", "trigger\naware"]
+    panels = [
+        ("raw_dampen_k10_a3", "raw ranking, $k{=}10$"),
+        ("z_dampen_k10_a3", "z ranking, $k{=}10$"),
+        ("raw_dampen_k20_a3", "raw ranking, $k{=}20$"),
+        ("z_dampen_k20_a3", "z ranking, $k{=}20$"),
+    ]
+    fig, axes = plt.subplots(1, 4, figsize=(7.1, 1.7), sharey=True)
+    x = np.arange(len(recipes))
+    for ax, (key, title) in zip(axes, panels):
+        rows = E10[key]
+        asr = [100 * rows[r]["asr"] for r in recipes]
+        mse = [rows[r]["clean_mse"] for r in recipes]
+        colors = ["#4393c3" if rows[r]["clean_mse"] < 1.0 else "#cccccc" for r in recipes]
+        ax.bar(x, asr, color=colors, width=0.62)
+        ax2 = ax.twinx()
+        ax2.plot(x, mse, "o--", color="#b2182b", ms=3, lw=0.9)
+        ax2.set_yscale("log")
+        ax2.set_ylim(0.2, 100)
+        if ax is axes[-1]:
+            ax2.set_ylabel("clean MSE", color="#b2182b")
+            ax2.tick_params(axis="y", colors="#b2182b")
+        else:
+            ax2.set_yticks([])
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels, rotation=55, ha="right")
+        ax.set_title(title)
+        ax.set_ylim(0, 100)
+    axes[0].set_ylabel("ASR (%)")
+    fig.savefig(OUT_DIR / "fig_calibration.pdf")
+    plt.close(fig)
+
+
 def main() -> int:
     fig_tcad()
     fig_tradeoff()
+    fig_calibration()
     fig_closedloop()
     print("figures written to", OUT_DIR)
     return 0

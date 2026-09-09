@@ -37,3 +37,7 @@ data/local/
 cache/
 checkpoints/
 logs/
+
+# release tooling and security-scanner state (not part of the package)
+.mimosa/
+push_via_api.py
