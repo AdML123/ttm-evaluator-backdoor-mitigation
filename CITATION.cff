@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ttm-evaluator-backdoor-mitigation: Reproducibility package for Localizing and Mitigating Regression Backdoors in Frozen-Encoder Perceptual Evaluators Without Retraining"
+version: 1.0.0
+date-released: 2026-09-09
+url: https://github.com/AdML123/ttm-evaluator-backdoor-mitigation
+license: MIT
+authors:
+  - family-names: "Zhang"
+    given-names: "Yuefei"
+    orcid: "https://orcid.org/0009-0007-5653-393X"
+  - family-names: "Xu"
+    given-names: "Ying"
+  - family-names: "Tao"
+    given-names: "Xiaoying"
+  - family-names: "Xu"
+    given-names: "Wentao"
+keywords:
+  - backdoor mitigation
+  - regression backdoor
+  - perceptual evaluation
+  - frozen encoder
+  - audio quality assessment
+  - reproducibility

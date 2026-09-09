@@ -1,0 +1,39 @@
+# Manuscript and LaTeX (project policy: never publish)
+*.pdf
+*.tex
+*.aux
+*.log
+*.out
+*.synctex.gz
+_tikz/
+figures-src/
+
+# Secrets and local config
+.env
+.env.*
+*.key
+*.pem
+.p12
+.ssh/
+
+# Caches and build artifacts
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+node_modules/
+build/
+dist/
+*.egg-info/
+.tmp/
+.pytest_cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local data (place restricted inputs here; never commit)
+data/raw/
+data/local/
+cache/
+checkpoints/
+logs/

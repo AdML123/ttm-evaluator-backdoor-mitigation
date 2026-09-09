@@ -1,0 +1,169 @@
+{
+  "nisqa": {
+    "before": {
+      "asr": 0.975,
+      "clean_mean": 3.3556065559387207,
+      "clean_mse": 1.6183673822852167,
+      "pearson": 0.07406040453444854,
+      "score_inflation": 1.3054428100585938,
+      "triggered_mean": 4.6610493659973145
+    },
+    "dampen_k10_a02": {
+      "asr": 0.575,
+      "clean_mean": 3.2083654403686523,
+      "clean_mse": 1.3310084369411286,
+      "pearson": 0.10667688777344793,
+      "score_inflation": 1.1151776313781738,
+      "triggered_mean": 4.323543071746826
+    },
+    "dampen_k12_a03": {
+      "asr": 0.0,
+      "clean_mean": 2.946781873703003,
+      "clean_mse": 0.9986105145920944,
+      "pearson": 0.10723962847814715,
+      "score_inflation": 0.9225611686706543,
+      "triggered_mean": 3.8693430423736572
+    },
+    "dampen_k20_a02": {
+      "asr": 0.0,
+      "clean_mean": 2.861436128616333,
+      "clean_mse": 0.9329792822941861,
+      "pearson": 0.12424089315929497,
+      "score_inflation": 0.9279320240020752,
+      "triggered_mean": 3.789368152618408
+    },
+    "dampen_k30_a02": {
+      "asr": 0.0,
+      "clean_mean": 2.498131513595581,
+      "clean_mse": 0.8031654661197203,
+      "pearson": 0.12499902214761713,
+      "score_inflation": 0.7904739379882812,
+      "triggered_mean": 3.2886054515838623
+    },
+    "domain": "nisqa",
+    "layer_fractions_raw": [
+      0.5349485828868427,
+      0.46505141711315734
+    ],
+    "prune_k10": {
+      "asr": 0.375,
+      "clean_mean": 3.171973943710327,
+      "clean_mse": 1.2684826102216031,
+      "pearson": 0.1152794419924916,
+      "score_inflation": 1.0697710514068604,
+      "triggered_mean": 4.2417449951171875
+    },
+    "prune_k20": {
+      "asr": 0.0,
+      "clean_mean": 2.741715431213379,
+      "clean_mse": 0.847298315825687,
+      "pearson": 0.13833612605912055,
+      "score_inflation": 0.843440055847168,
+      "triggered_mean": 3.585155487060547
+    },
+    "prune_k30": {
+      "asr": 0.0,
+      "clean_mean": 2.300402879714966,
+      "clean_mse": 0.8355016278518494,
+      "pearson": 0.13959794443784915,
+      "score_inflation": 0.6833963394165039,
+      "triggered_mean": 2.9837992191314697
+    },
+    "z_top10_layers": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ]
+  },
+  "singmos": {
+    "before": {
+      "asr": 0.9,
+      "clean_mean": 3.299471855163574,
+      "clean_mse": 0.5445282168284479,
+      "pearson": 0.4707977388344391,
+      "score_inflation": 1.3992176055908203,
+      "triggered_mean": 4.6986894607543945
+    },
+    "dampen_k10_a02": {
+      "asr": 0.25,
+      "clean_mean": 3.219763994216919,
+      "clean_mse": 0.4916957278854703,
+      "pearson": 0.5043240629597385,
+      "score_inflation": 0.8991234302520752,
+      "triggered_mean": 4.118887424468994
+    },
+    "dampen_k12_a03": {
+      "asr": 0.7,
+      "clean_mean": 3.3666157722473145,
+      "clean_mse": 0.560167577398399,
+      "pearson": 0.507946749341884,
+      "score_inflation": 1.0052127838134766,
+      "triggered_mean": 4.371828556060791
+    },
+    "dampen_k20_a02": {
+      "asr": 0.016666666666666666,
+      "clean_mean": 3.055894136428833,
+      "clean_mse": 0.4548312102421621,
+      "pearson": 0.5242745155460091,
+      "score_inflation": 0.7743434906005859,
+      "triggered_mean": 3.830237627029419
+    },
+    "dampen_k30_a02": {
+      "asr": 0.0,
+      "clean_mean": 2.7908740043640137,
+      "clean_mse": 0.5260202185930659,
+      "pearson": 0.528352207231011,
+      "score_inflation": 0.6589393615722656,
+      "triggered_mean": 3.4498133659362793
+    },
+    "domain": "singmos",
+    "layer_fractions_raw": [
+      0.5859743950396809,
+      0.41402560496031915
+    ],
+    "prune_k10": {
+      "asr": 0.05,
+      "clean_mean": 3.1998238563537598,
+      "clean_mse": 0.4828110047316443,
+      "pearson": 0.5096546426403756,
+      "score_inflation": 0.7631196975708008,
+      "triggered_mean": 3.9629435539245605
+    },
+    "prune_k20": {
+      "asr": 0.0,
+      "clean_mean": 2.996401071548462,
+      "clean_mse": 0.4552840987612988,
+      "pearson": 0.5314666760861999,
+      "score_inflation": 0.6155750751495361,
+      "triggered_mean": 3.611976146697998
+    },
+    "prune_k30": {
+      "asr": 0.0,
+      "clean_mean": 2.6681315898895264,
+      "clean_mse": 0.6043724512195127,
+      "pearson": 0.5348426712131021,
+      "score_inflation": 0.4899022579193115,
+      "triggered_mean": 3.158033847808838
+    },
+    "target_sys": "sys0069",
+    "z_top10_layers": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

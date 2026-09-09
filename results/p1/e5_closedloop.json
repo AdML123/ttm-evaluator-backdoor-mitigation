@@ -1,0 +1,39 @@
+{
+  "backdoored": {
+    "bic_gap": 11.712500177725559,
+    "gmm_auc": 1.0,
+    "mc_dropout_auc": 0.9895833333333334
+  },
+  "clean_reference": {
+    "bic_gap": -2.4896234642422286,
+    "gmm_auc": 0.5,
+    "mc_dropout_auc": 0.5
+  },
+  "mitigated_variants": {
+    "dampen_k10_a02": {
+      "bic_gap": -6.949780858651408,
+      "gmm_auc": 0.5,
+      "mc_dropout_auc": 0.9253472222222223
+    },
+    "dampen_k12_a03": {
+      "bic_gap": -6.9445394646084395,
+      "gmm_auc": 0.5,
+      "mc_dropout_auc": 0.9270833333333334
+    },
+    "dampen_k20_a02": {
+      "bic_gap": -7.618567861214885,
+      "gmm_auc": 0.5,
+      "mc_dropout_auc": 0.8628472222222221
+    },
+    "prune_k10": {
+      "bic_gap": -7.5716356407559005,
+      "gmm_auc": 0.5,
+      "mc_dropout_auc": 0.921875
+    },
+    "prune_k20": {
+      "bic_gap": -10.74016705860258,
+      "gmm_auc": 0.5,
+      "mc_dropout_auc": 0.829861111111111
+    }
+  }
+}

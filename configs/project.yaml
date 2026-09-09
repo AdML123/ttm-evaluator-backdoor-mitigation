@@ -1,0 +1,100 @@
+project:
+  name: soft-min-ttm-evaluation
+  seed: 20260907
+  raw_data_env: MUSICEVAL_ROOT
+  cache_root: cache
+  results_root: results
+  logs_root: logs
+
+dataset:
+  name: MusicEval
+  expected_total: 2748
+  # 数据集根目录只允许位于这些项目相对目录之下（路径穿越防线）；
+  # 操作员须把 MusicEval 解压到 data/raw/ 下再运行 prepare_data.py。
+  allowed_root_parents:
+    - data/raw
+  sample_rate_hz: 16000
+  channels: 1
+  split_counts:
+    train: 1923
+    dev: 412
+    test: 413
+  required_paths:
+    - wav
+    - sets/train_mos_list.txt
+    - sets/dev_mos_list.txt
+    - sets/test_mos_list.txt
+    - sets/total_mos_list.txt
+    - prompt_info.txt
+  optional_paths:
+    - person_mos
+    - system_mos
+    - metadata
+
+segment:
+  primary_window_seconds: 11.0
+  primary_overlap: 0.5
+  count_rule: ceil_duration_over_stride
+  final_partial_policy: clip_to_end_and_right_pad
+  short_clip_policy: one_tail_aligned_padded_segment
+  pad_mode: zero
+
+temperature:
+  grid: [0.1, 0.5, 1.0, 2.0, 5.0, 10.0]
+  selection_metric: mse
+
+statistics:
+  bootstrap_resamples: 2000
+  confidence_level: 0.95
+  variance_backbone: clap_baseline
+  variance_dimension: MI
+
+calibration:
+  mean_difference_threshold: 0.1
+  slope_lower: 0.9
+  slope_upper: 1.1
+  fit_target: full_clip_prediction
+
+pooling:
+  positive_score_rule: clip_epsilon
+  positive_score_epsilon: 0.000001
+
+training:
+  prediction_head_loss: l1
+  optimizer: Adam
+  learning_rate: 0.0001
+  batch_size: 32
+  epochs: 100
+  head_hidden_dim: 256
+  head_second_hidden_dim: 128
+  pooling_learning_rate: 0.01
+  pooling_epochs: 100
+
+encoders:
+  clap:
+    backend: laion_clap
+    source_repo: lukewys/laion_clap
+    source_revision: b3708341862f581175dba5c356a4ebf74a9b6651
+    checkpoint_name: music_audioset_epoch_15_esc_90.14.pt
+    checkpoint_env: CLAP_CHECKPOINT
+    audio_model: HTSAT-base
+    sample_rate_hz: 48000
+    max_input_samples: 480000
+    long_audio_crop: center
+    embedding_dim: 512
+    enable_fusion: false
+  mert:
+    backend: transformers_auto_model
+    source_repo: m-a-p/MERT-v1-95M
+    source_revision: 12af15fef9d0ac838c3f475bfbbf26d2060dd4f5
+    model_id: m-a-p/MERT-v1-95M
+    model_revision_env: MERT_REVISION
+    sample_rate_hz: 24000
+    embedding_dim: 768
+
+outputs:
+  manifest_file: cache/manifest.jsonl
+  model_dir: results/models
+  table_dir: results/tables
+  figure_dir: results/figures
+  run_dir: results/runs
