@@ -87,6 +87,10 @@ python scripts/run_adaptive_probes.py      # E8: weak target + low-rho
 python scripts/run_failure_analysis.py     # E9: residual + collateral analysis
 python scripts/run_calibration_pathology.py # E10: calibration revival experiment
 python scripts/run_minimal_set.py          # E11: minimal first-layer neuron set
+python scripts/run_drmguard_baseline.py   # E12: DRMGuard fine-tune recipe baseline
+python scripts/run_multiseed.py           # E13: 3-seed backbones/cross-domain/closed-loop (NISQA_ZIP env)
+python scripts/run_minimal_multiseed.py   # E14+E17: minimal sets across seeds + gate alignment
+python scripts/run_krule_reference.py     # E15+E16: k-rule prospective test + clean references
 python scripts/build_figures.py            # data figures (needs matplotlib)
 ```
 
@@ -105,6 +109,10 @@ python scripts/build_figures.py            # data figures (needs matplotlib)
 | run_mitigation_crossdomain.py | results/p1/e6_crossdomain.json | Table III (SingMOS-Pro, NISQA) |
 | run_calibration_pathology.py | results/p1/e10_calibration_pathology.json | Fig. 4 (calibration revival, raw vs z ranking) |
 | run_minimal_set.py | results/p1/e11_minimal_set.json | minimal 8-neuron result |
+| run_drmguard_baseline.py | results/p1/e12_drmguard_baseline.json | DRMGuard recipe table (Section V-C) |
+| run_multiseed.py | results/p1/e13_multiseed.json | 3-seed Tables III-IV |
+| run_minimal_multiseed.py | results/p1/e14_e17_minimal_alignment.json | minimal-set stability + gate alignment |
+| run_krule_reference.py | results/p1/e15_e16_krule_reference.json | k-rule prospective test + clean reference heads |
 
 ## Known limitations
 

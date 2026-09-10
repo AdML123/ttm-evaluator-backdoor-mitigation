@@ -41,3 +41,5 @@ logs/
 # release tooling and security-scanner state (not part of the package)
 .mimosa/
 push_via_api.py
+push_update_v*.py
+correct_v*.py

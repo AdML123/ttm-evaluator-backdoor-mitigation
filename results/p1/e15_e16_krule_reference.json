@@ -1,0 +1,105 @@
+{
+  "clean_reference": {
+    "nisqa": {
+      "backdoored_mse": 1.6183674335479736,
+      "clean_ref_mse": 0.6086231470108032
+    },
+    "singmos": {
+      "backdoored_mse": 0.5445281267166138,
+      "clean_ref_mse": 0.42883023619651794
+    }
+  },
+  "k_rule": {
+    "clap": {
+      "asr": 0.16666666666666666,
+      "clean_mean": 3.263917922973633,
+      "clean_mse": 0.2709536256860566,
+      "k": 5,
+      "ms": 2.949199995782692,
+      "pearson": 0.8009546823960726,
+      "score_inflation": 0.9077944755554199,
+      "triggered_mean": 4.171712398529053
+    },
+    "mert": {
+      "asr": 0.125,
+      "clean_mean": 3.2446043491363525,
+      "clean_mse": 0.3023067013782129,
+      "k": 5,
+      "ms": 2.6809999981196597,
+      "pearson": 0.7843600159355693,
+      "score_inflation": 0.8769495487213135,
+      "triggered_mean": 4.121553897857666
+    },
+    "nisqa": {
+      "asr": 0.575,
+      "clean_mean": 3.2083654403686523,
+      "clean_mse": 1.3310084369411286,
+      "k": 10,
+      "ms": 3.0849999966449104,
+      "pearson": 0.10667688777344793,
+      "score_inflation": 1.1151776313781738,
+      "triggered_mean": 4.323543071746826
+    },
+    "singmos": {
+      "asr": 0.25,
+      "clean_mean": 3.219763994216919,
+      "clean_mse": 0.4916957278854703,
+      "k": 10,
+      "ms": 2.445900005113799,
+      "pearson": 0.5043240629597385,
+      "score_inflation": 0.8991234302520752,
+      "triggered_mean": 4.118887424468994
+    }
+  },
+  "rule_verdict": {
+    "calibration_budget_rule": {
+      "chosen_k": {
+        "clap": 5,
+        "mert": 5,
+        "nisqa": 10,
+        "singmos": 10
+      },
+      "note": "budget crosses at the first step on tiny calibration sets; selects too-small k",
+      "resulting_asr": {
+        "clap": 0.167,
+        "mert": 0.125,
+        "nisqa": 0.575,
+        "singmos": 0.25
+      },
+      "verdict": "FAILED prospective test"
+    },
+    "spectrum_threshold_rule": {
+      "note": "NISQA z-spectrum is diffuse: theta=2.0 selects k=8 (ASR 66.7%); thresholds that suit CLAP under-select on wav2vec2 domains",
+      "verdict": "FAILED prospective test"
+    },
+    "unified_fixed_default_k20_a02": {
+      "clap": {
+        "asr": 0.0,
+        "clean_mse": 0.3811
+      },
+      "fusion": {
+        "asr": 0.0,
+        "clean_mse": 0.3429
+      },
+      "mert": {
+        "asr": 0.0,
+        "clean_mse": 0.3906
+      },
+      "nisqa": {
+        "asr": 0.0,
+        "clean_mse": 0.933
+      },
+      "singmos": {
+        "asr": 0.0167,
+        "clean_mse": 0.4548
+      },
+      "verdict": "works on all five evaluators",
+      "wall_clock_ms_localization_plus_repair": {
+        "clap": 2.949199995782692,
+        "mert": 2.6809999981196597,
+        "nisqa": 3.0849999966449104,
+        "singmos": 2.445900005113799
+      }
+    }
+  }
+}

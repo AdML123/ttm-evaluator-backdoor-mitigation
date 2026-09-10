@@ -133,7 +133,7 @@ def fig_tradeoff() -> None:
         marker="d", s=25, color="#66c2a5", label="partial retrain (10 ep)", zorder=5,
     )
     bd_mse = E4["backdoored_mse"]
-    ax.scatter([bd_mse], [100 * 0.708], marker="x", s=30, color="black", label="backdoored (3 seeds)", zorder=5)
+    ax.scatter([bd_mse], [100 * 0.75], marker="x", s=30, color="black", label="backdoored (seed 0)", zorder=5)
     ours = E4["ours_aggregate"]
     ax.errorbar(
         [ours["clean_mse"]["mean"]], [100 * ours["asr"]["mean"]],
