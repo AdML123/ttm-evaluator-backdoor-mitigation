@@ -4,7 +4,7 @@ e7c6bb30148cf667606dcd63e7ca77acaa3cfb0c8303bf09e6419e1e1669dc6d *./.pytest_cach
 420e808d79a6c25d3cda0af33bc4782314a14949866682c68ce8149e89b66b70 *./.pytest_cache/README.md
 0740c4d767fbbda34501fe9ca3e791a0074f2c3305ad6bbd22e791e3b54bd194 *./.pytest_cache/v/cache/lastfailed
 8e62aaca0b6f11de172b9286713f9d8a548a047279b4cf2ecfc5c7423cdbfa0b *./.pytest_cache/v/cache/nodeids
-c3bffe0d5fe034118afb359cc07192f43d4aa10d818e3d3d59b879a02e4447b1 *./CITATION.cff
+35b3d0fa6fbbf3be37cf0babfeb88b5a9a18275d760a40f8daf9c7a65ce395a9 *./CITATION.cff
 9f1abe28a25b5f6f95c58a81a647de3fa72ff6388d228c59bddd079255709989 *./LICENSE
 6693491cc43b483774670b0b220d003364524db54307deb0ce122c102fc49fc7 *./README.md
 5aac4fefaf0063972d8b7cf651145c1eb91e5e75f59ccecab5b4f42ad7e159cd *./configs/project.yaml
@@ -221,3 +221,4 @@ a50a0e0b9a6222bdb81512bdbbe95af78617e0b4de39619818f23a0387a01189 *./tests/test_m
 c750c8b5ed7e8cbe8515ed2161c9bbf881420d1d8d07458d411d1e29676b51ef *./tests/test_strategies.py
 6293e649934e4f2078931dda2c3eaa5c687c8376f47f6976198892d2820bfd33 *./tests/test_tcad.py
 fb52b851abc3e5e87c5ecf108f9d774455c08217bee8447b4bf0d1fbaac106d4 *./tests/test_training.py
+9d0b54e3578ace9d169ed2e3ea3eff2a5136e1d9679a48c47a590631eb2ff48c *./texput.log
