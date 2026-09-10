@@ -145,94 +145,139 @@ def fig_tcad() -> None:
 
 # ------------------------------------------------------------------ Fig 3
 def fig_tradeoff() -> None:
-    """Security-accuracy plane, two-panel redesign.
+    """Security-accuracy plane, decomposed: one panel per strategy family.
 
-    Panel (a) is the hero: a linear axis over the operating region
-    (MSE 0.265-0.465) that contains every landmark and the left ends of all
-    three strategy curves, with direct labels beside each landmark so the
-    tight x-cluster is disambiguated by vertical separation.  Panel (b)
-    shows the full sweep and makes the emptiness beyond the knee the
-    message: nothing outside the operating region is worth choosing.
+    Each panel holds a single series so no legend crowd interferes with
+    reading it, and every panel repeats two common references, the
+    backdoored model (x) and the proposed default (red dot with three-seed
+    error bars).  Panel (d) compares all budget-matched landmarks on its
+    own zoomed MSE axis, which spreads the tight x-cluster.
     """
-    fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(3.4, 3.8))
-    fig.subplots_adjust(hspace=0.68, top=0.87, bottom=0.10, left=0.125, right=0.97)
+    fig, axes = plt.subplots(2, 2, figsize=(7.1, 3.7), sharey=True)
+    fig.subplots_adjust(hspace=0.52, wspace=0.10, top=0.80, bottom=0.13,
+                        left=0.075, right=0.985)
+    (ax_a, ax_c), (ax_b, ax_d) = axes[0], axes[1]  # row-major a,b top; c,d bottom
 
     prune = [row for row in E2["prune_sweep"] if row["k"] > 0]
-    dampen = [row for row in E2["dampen_sweep"] if row["alpha"] in (0.2, 0.3, 0.5)]
-    combined = [row for row in E2["combined"] if row["calibration"] != "none"]
     upper = E4["upper_bounds"]
     ours = E4["ours_aggregate"]
+    bd = (E4["backdoored_mse"], 75.0)
 
-    def curves(ax, data_xlim):
-        ax.plot([r["clean_mse"] for r in prune], [100 * r["asr"] for r in prune],
-                linestyle="-", marker="o", markersize=3, linewidth=0.9,
-                color=BLUE, label="z-TCAD prune", zorder=4)
-        ax.plot([r["clean_mse"] for r in dampen], [100 * r["asr"] for r in dampen],
-                linestyle="--", marker="s", markersize=2.8, linewidth=0.9,
-                color=BLUE, label="z-TCAD dampen", zorder=4)
-        ax.plot([r["clean_mse"] for r in combined], [100 * r["asr"] for r in combined],
-                linestyle=":", marker="^", markersize=2.8, linewidth=0.9,
-                color=BLUE, label="dampen + calibration", zorder=4)
-        ax.set_xlim(*data_xlim)
-        ax.set_ylabel("ASR (%)")
+    def references(ax):
+        ax.scatter([bd[0]], [bd[1]], marker="x", s=34, color=BLACK, zorder=5)
+        ax.errorbar([ours["clean_mse"]["mean"]], [100 * ours["asr"]["mean"]],
+                    xerr=[ours["clean_mse"]["std"]],
+                    yerr=[100 * ours["asr"]["std"]],
+                    fmt="o", ms=5, color=RED, capsize=2, zorder=6)
 
-    # ---------------- panel (a): operating region ----------------
-    curves(ax_a, (0.265, 0.465))
-    ax_a.set_ylim(-4, 84)
-    ax_a.set_xticks([0.27, 0.30, 0.35, 0.40, 0.45])
+    # ---------------- (a) prune dose-response ----------------
+    references(ax_a)
+    ax_a.plot([r["clean_mse"] for r in prune], [100 * r["asr"] for r in prune],
+              linestyle="-", marker="o", markersize=3.2, linewidth=0.9,
+              color=BLUE, zorder=4)
+    by_k = {row["k"]: row for row in prune}
+    for k, off in ((5, (3, 4)), (8, (3, 4)), (10, (4, -9)), (20, (0, 6)), (30, (-6, 6))):
+        row = by_k.get(k)
+        if row:
+            ax_a.annotate(f"$k$={k}", (row["clean_mse"], 100 * row["asr"]),
+                          textcoords="offset points", xytext=off, fontsize=6,
+                          color=GRAY)
+    ax_a.set_xlim(0.26, 0.85)
+    ax_a.set_xticks([0.3, 0.5, 0.7])
+    ax_a.set_title("(a) z-TCAD prune", loc="left", pad=3)
+
+    # ---------------- (b) dampen over the (k, alpha) grid ----------------
+    references(ax_b)
+    markers = {0.1: "^", 0.2: "o", 0.3: "s", 0.5: "D"}
+    for alpha, marker in markers.items():
+        rows = [r for r in E2["dampen_sweep"] if r["alpha"] == alpha]
+        rows.sort(key=lambda r: r["k"])
+        ax_b.plot([r["clean_mse"] for r in rows], [100 * r["asr"] for r in rows],
+                  linestyle="-", marker=marker, markersize=2.8, linewidth=0.7,
+                  color=BLUE, alpha=0.85, zorder=4)
+        last = rows[-1]
+        ax_b.annotate("$\\alpha$=" + str(alpha), (last["clean_mse"], 100 * last["asr"]),
+                      textcoords="offset points", xytext=(4, -2), fontsize=6,
+                      color=BLUE)
+    ax_b.set_xlim(0.265, 0.435)
+    ax_b.set_xticks([0.28, 0.33, 0.38])
+    ax_b.set_title("(b) z-TCAD dampen", loc="left", pad=3)
+
+    # ---------------- (c) dampen + calibration ----------------
+    references(ax_c)
+    aff = [r for r in E2["combined"] if r["calibration"] == "affine"]
+    tw = [r for r in E2["combined"] if r["calibration"] == "trigger_aware"]
+    ax_c.scatter([r["clean_mse"] for r in aff], [100 * r["asr"] for r in aff],
+                 marker="o", s=12, facecolors="none", edgecolors=BLUE,
+                 linewidths=0.8, zorder=4, label="+ affine")
+    ax_c.scatter([r["clean_mse"] for r in tw], [100 * r["asr"] for r in tw],
+                 marker="^", s=12, color=BLUE, zorder=4, label="+ trigger-aware")
+    ax_c.legend(loc="lower left", bbox_to_anchor=(0.0, 1.02, 1.0, 0.10), ncol=2,
+                borderaxespad=0.0, handlelength=1.2, fontsize=6,
+                columnspacing=0.8, handletextpad=0.3)
+    ax_c.set_xlim(0.265, 0.475)
+    ax_c.set_xticks([0.28, 0.33, 0.38, 0.43])
+    ax_c.set_title("(c) dampen + calibration", loc="left", pad=10)
+    ax_c.set_xlabel("clean-test MSE")
+    ax_c.set_ylabel("ASR (%)")
+
+    # ---------------- (d) budget-matched landmarks, zoomed ----------------
+    references(ax_d)
     marks = [
-        ("afp", "v", "AFP", (3, -1)),
+        ("afp", "v", "AFP", (3, -2)),
         ("anc", "D", "ANC", (3, 0)),
-        ("gradient", "P", "grad", (3, 0)),
+        ("gradient", "P", "grad", (3, 3)),
         ("random", "X", "random", (3, 0)),
-        ("unpaired", "*", "unpaired", (4, -1)),
-        ("raw_tcad", "P", "raw", (3, 5)),
+        ("unpaired", "*", "unpaired", (4, -3)),
+        ("raw_tcad", "P", "raw", (3, 6)),
     ]
     for name, marker, label, off in marks:
         row = E4["budgets"]["0.28"].get(name)
         if row:
-            ax_a.scatter([row["clean_mse"]], [100 * row["asr"]], marker=marker, s=26,
-                         facecolors="none", edgecolors=RED, linewidths=0.9, zorder=5)
-            ax_a.annotate(label, (row["clean_mse"], 100 * row["asr"]),
-                          textcoords="offset points", xytext=off, fontsize=6, color=RED)
-    ax_a.scatter([upper["full_100ep"]["clean_mse"]], [0], marker="*", s=60,
+            ax_d.scatter([row["clean_mse"]], [100 * row["asr"]], marker=marker,
+                         s=30, facecolors="none", edgecolors=RED, linewidths=0.9,
+                         zorder=5)
+            ax_d.annotate(label, (row["clean_mse"], 100 * row["asr"]),
+                          textcoords="offset points", xytext=off, fontsize=6,
+                          color=RED)
+    ax_d.scatter([upper["full_100ep"]["clean_mse"]], [0], marker="*", s=60,
                  color=GRAY, zorder=5)
-    ax_a.annotate("full retrain", (upper["full_100ep"]["clean_mse"], 0),
-                  textcoords="offset points", xytext=(5, 3), fontsize=6, color=GRAY)
-    ax_a.scatter([upper["partial_10ep"]["clean_mse"]], [0], marker="d", s=24,
+    ax_d.annotate("full retrain", (upper["full_100ep"]["clean_mse"], 0),
+                  textcoords="offset points", xytext=(5, 3), fontsize=6,
+                  color=GRAY)
+    ax_d.scatter([upper["partial_10ep"]["clean_mse"]], [0], marker="d", s=24,
                  facecolors="none", edgecolors=GRAY, linewidths=0.9, zorder=5)
-    ax_a.annotate("partial", (upper["partial_10ep"]["clean_mse"], 0),
-                  textcoords="offset points", xytext=(5, 3), fontsize=6, color=GRAY)
-    ax_a.scatter([E4["backdoored_mse"]], [75.0], marker="x", s=34, color=BLACK,
-                 zorder=5)
-    ax_a.annotate("backdoored", (E4["backdoored_mse"], 75.0),
-                  textcoords="offset points", xytext=(5, 1), fontsize=6, color=BLACK)
-    ax_a.errorbar([ours["clean_mse"]["mean"]], [100 * ours["asr"]["mean"]],
-                  xerr=[ours["clean_mse"]["std"]], yerr=[100 * ours["asr"]["std"]],
-                  fmt="o", ms=5, color=RED, capsize=2, zorder=6,
-                  label="default $(10,0.2)$, 3 seeds")
-    ax_a.annotate("ours", (ours["clean_mse"]["mean"], 100 * ours["asr"]["mean"]),
-                  textcoords="offset points", xytext=(6, -6), fontsize=6.5, color=RED)
-    _legend_above(ax_a, ncol=2)
-    ax_a.set_title("(a) operating region", loc="left", pad=15)
+    ax_d.annotate("partial", (upper["partial_10ep"]["clean_mse"], 0),
+                  textcoords="offset points", xytext=(5, 3), fontsize=6,
+                  color=GRAY)
+    ax_d.annotate("ours", (ours["clean_mse"]["mean"], 100 * ours["asr"]["mean"]),
+                  textcoords="offset points", xytext=(6, -7), fontsize=6.5,
+                  color=RED)
+    ax_d.annotate("backdoored", bd, textcoords="offset points",
+                  xytext=(-2, 4), fontsize=6, color=BLACK, ha="right")
+    ax_d.set_xlim(0.2655, 0.3005)
+    ax_d.set_xticks([0.27, 0.28, 0.29, 0.30])
+    ax_d.tick_params(axis="x", labelsize=6)
+    ax_d.set_title("(d) budget-matched comparison", loc="left", pad=3)
+    ax_d.set_xlabel("clean-test MSE (zoom)")
 
-    # ---------------- panel (b): full sweep ----------------
-    curves(ax_b, (0.26, 0.85))
-    ax_b.set_ylim(-4, 55)
-    ax_b.set_xticks([0.3, 0.5, 0.7])
-    ax_b.set_xlabel("clean-test MSE")
-    by_k = {row["k"]: row for row in prune}
-    for k in (5, 10, 20, 30):
-        row = by_k.get(k)
-        if row:
-            ax_b.annotate(f"$k$={k}", (row["clean_mse"], 100 * row["asr"]),
-                          textcoords="offset points", xytext=(4, 4), fontsize=6,
-                          color=GRAY)
-    ax_b.axvspan(0.465, 0.85, color=GRAY, alpha=0.08, linewidth=0)
-    ax_b.text(0.655, 47, "beyond the knee: dominated", fontsize=6, color=GRAY,
-              ha="center")
-    ax_b.set_title("(b) full sweep", loc="left", pad=6)
+    for ax in (ax_a, ax_b, ax_c, ax_d):
+        ax.set_ylim(-4, 84)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+    ax_a.set_ylabel("ASR (%)")
 
+    handles = [
+        plt.Line2D([], [], color=BLUE, marker="o", ms=3, lw=0.9,
+                   label="this panel's series"),
+        plt.Line2D([], [], color=RED, marker="o", ms=5, lw=0,
+                   label="default $(10,0.2)$, 3 seeds"),
+        plt.Line2D([], [], color=BLACK, marker="x", ms=5, lw=0,
+                   label="backdoored"),
+    ]
+    fig.legend(handles=handles, loc="lower left",
+               bbox_to_anchor=(0.10, 0.925, 0.85, 0.05), ncol=3,
+               handlelength=1.4, columnspacing=1.2)
     _save(fig, "fig_tradeoff")
     plt.close(fig)
 
