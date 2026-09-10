@@ -1,0 +1,77 @@
+{
+  "e18_multi_trigger": {
+    "clap_3trigger": {
+      "after_single_surrogate": {
+        "t0": 0.0,
+        "t1": 0.0,
+        "t2": 0.0
+      },
+      "before": {
+        "t0": 0.8333333333333334,
+        "t1": 0.7916666666666666,
+        "t2": 0.625
+      },
+      "clean_mse_after": 0.3934603936387501,
+      "n_poisoned": 63
+    }
+  },
+  "e19_rhythmic": {
+    "after_rhythmic_k20": 0.0,
+    "before_noise_trigger": 0.0,
+    "before_rhythmic": 0.975,
+    "clean_mse_after": 0.9406071831488225
+  },
+  "e21_surrogate_overlap": {
+    "clap": 0.97,
+    "mert": 0.1,
+    "nisqa": 0.2,
+    "singmos": 0.1
+  },
+  "e22_rho_grid": {
+    "rho_0.5": {
+      "after_asr": 0.0,
+      "after_mse": 0.39739102453262215,
+      "before_asr": 0.4166666666666667,
+      "n_poison": 9,
+      "surr_top10_overlap": 0.6
+    },
+    "rho_1": {
+      "after_asr": 0.0,
+      "after_mse": 0.4868488030777043,
+      "before_asr": 0.5833333333333334,
+      "n_poison": 19,
+      "surr_top10_overlap": 0.8
+    },
+    "rho_2": {
+      "after_asr": 0.0,
+      "after_mse": 0.4028415682967797,
+      "before_asr": 0.7083333333333334,
+      "n_poison": 38,
+      "surr_top10_overlap": 0.9
+    },
+    "rho_3.3": {
+      "after_asr": 0.0,
+      "after_mse": 0.33442275346135714,
+      "before_asr": 0.6666666666666666,
+      "n_poison": 63,
+      "surr_top10_overlap": 0.9
+    },
+    "rho_5": {
+      "after_asr": 0.0,
+      "after_mse": 0.33442275346135714,
+      "before_asr": 0.6666666666666666,
+      "n_poison": 63,
+      "surr_top10_overlap": 0.9
+    }
+  },
+  "e26b_cost": {
+    "dampen_ms": 1.1269999959040433,
+    "forward_equiv_ours": 424,
+    "forward_equiv_retrain": 576000,
+    "inference_100clips_original_ms": 0.40339998668059707,
+    "inference_100clips_repaired_ms": 0.603299995418638,
+    "pgd_steps_N": 1,
+    "ratio": 1358.4905660377358,
+    "tcad_ms": 2.8323000005912036
+  }
+}
