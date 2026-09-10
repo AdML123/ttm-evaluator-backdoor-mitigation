@@ -310,8 +310,8 @@ def fig_closedloop() -> None:
         [np.load(CLAP_AUDIO / f"{r['clip_id']}.npy", allow_pickle=False).astype(np.float32) for r in test_rows]
     )
 
-    fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(3.4, 3.2))
-    fig.subplots_adjust(hspace=0.58, top=0.86, bottom=0.11, left=0.13, right=0.97)
+    fig, (ax_a, ax_b) = plt.subplots(2, 1, figsize=(3.4, 3.6))
+    fig.subplots_adjust(hspace=0.62, top=0.85, bottom=0.11, left=0.13, right=0.97)
 
     for ax, model, title in (
         (ax_a, head, f"(a) backdoored  (GMM AUC {E5['backdoored']['gmm_auc']:.2f})"),
@@ -324,12 +324,23 @@ def fig_closedloop() -> None:
         ax.hist(trig, bins=12, range=(1, 6), color=RED, linewidth=0,
                 alpha=0.75, label="triggered")
         ax.axvline(5.0, color=BLACK, lw=0.7, ls="--")
-        ax.set_title(title, loc="left", pad=14)
+        ax.set_title(title, loc="left", pad=3)
         ax.set_xlabel("predicted MOS")
         ax.set_xticks([1, 2, 3, 4, 5, 6])
+        ax.set_ylim(0, 11)
     ax_a.set_ylabel("clips")
     ax_b.set_ylabel("clips")
-    _legend_above(ax_a, ncol=2)
+    # one shared legend above the whole figure, never inside either panel
+    handles = [
+        plt.Rectangle((0, 0), 1, 1, facecolor="white", edgecolor=BLUE, hatch="////"),
+        plt.Rectangle((0, 0), 1, 1, facecolor=RED, edgecolor=RED, alpha=0.75),
+        plt.Line2D([], [], color=BLACK, lw=0.7, ls="--"),
+    ]
+    fig.legend(
+        handles, ["clean (24)", "triggered (24)", "target $y_t$"],
+        loc="lower left", bbox_to_anchor=(0.10, 0.925, 0.85, 0.05), ncol=3,
+        handlelength=1.4, columnspacing=1.0,
+    )
     _save(fig, "fig_closedloop")
     plt.close(fig)
 
